@@ -1,6 +1,6 @@
 import './randomChar.scss';
-import thor from '../../resources/img/thor.jpeg';
-import mjolnir from '../../resources/img/mjolnir.png';
+import thor from '../../pictures/thor.jpeg';
+import mjolnir from '../../pictures/mjolnir.png';
 
 export default function RandomChar() {
 	return (
