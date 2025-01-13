@@ -2,14 +2,34 @@ import { Component } from 'react';
 
 import './randomChar.scss';
 import mjolnir from '../../pictures/mjolnir.png';
-
+import MarvelService from './services/MarvelService';
 class RandomChar extends Component {
+	constructor(props) {
+		super(props);
+		this.updateChar();
+	}
 	state = {
 		name: null,
 		discription: null,
 		thumbnail: null,
 		homepage: null,
 		wiki: null,
+	};
+	marvelService = new MarvelService();
+	updateChar = () => {
+		const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
+		this.marvelService.getCharacter(id).then((res) => {
+			this.setState({
+				name: res.data.results[0].name,
+				discription: res.data.results[0].discription,
+				thumbnail:
+					res.data.results[0].thumbnail.path +
+					'.' +
+					res.data.results[0].thumbnail.extension,
+				homepage: res.data.results[0].urls[0].url,
+				wiki: res.data.results[0].urls[1].url,
+			});
+		});
 	};
 	render() {
 		const { name, discription, thumbnail, homepage, wiki } = this.state;
@@ -50,3 +70,4 @@ class RandomChar extends Component {
 		);
 	}
 }
+export default RandomChar;
