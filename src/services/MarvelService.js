@@ -15,12 +15,24 @@ class MarvelService {
 			`${this._apiBase}characters?limit=9&offset=210&${this._apiKey}`
 		);
 	};
-	getCharacter = (id) => {
-		return this.getResource(`${this._apiBase}characters/${id}?${this._apiKey}`);
+	getCharacter = async (id) => {
+		const res = await this.getResource(
+			`${this._apiBase}characters/${id}?${this._apiKey}`
+		);
+		return this._transformCharacter(res);
 	};
 
 	_transformCharacter = (res) => {
-		return {};
+		return {
+			name: res.data.results[0].name,
+			discription: res.data.results[0].discription,
+			thumbnail:
+				res.data.results[0].thumbnail.path +
+				'.' +
+				res.data.results[0].thumbnail.extension,
+			homepage: res.data.results[0].urls[0].url,
+			wiki: res.data.results[0].urls[1].url,
+		};
 	};
 }
 
