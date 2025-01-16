@@ -1,5 +1,6 @@
+import { Component } from 'react';
+
 import './randomChar.scss';
-import thor from '../../pictures/thor.jpeg';
 import mjolnir from '../../pictures/mjolnir.png';
 import MarvelService from './services/MarvelService';
 class RandomChar extends Component {
@@ -51,20 +52,20 @@ class RandomChar extends Component {
 						</div>
 					</div>
 				</div>
+				<div className="randomchar__static">
+					<p className="randomchar__title">
+						Random character for today!
+						<br />
+						Do you want to get to know him better?
+					</p>
+					<p className="randomchar__title">Or choose another one</p>
+					<button className="button button__main">
+						<div className="inner">try it</div>
+					</button>
+					<img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
+				</div>
 			</div>
-			<div className="randomchar__static">
-				<p className="randomchar__title">
-					Random character for today!
-					<br />
-					Do you want to get to know him better?
-				</p>
-				<p className="randomchar__title">Or choose another one</p>
-				<button className="button button__main">
-					<div className="inner">try it</div>
-				</button>
-				<img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
-			</div>
-		</div>
-	);
+		);
+	}
 }
-}
+export default RandomChar;
