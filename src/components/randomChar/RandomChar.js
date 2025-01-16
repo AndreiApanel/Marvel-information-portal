@@ -67,3 +67,4 @@ class RandomChar extends Component {
 		</div>
 	);
 }
+}
