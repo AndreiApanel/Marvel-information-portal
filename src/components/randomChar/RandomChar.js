@@ -2,7 +2,7 @@ import { Component } from 'react';
 
 import './randomChar.scss';
 import mjolnir from '../../pictures/mjolnir.png';
-import MarvelService from './services/MarvelService';
+import MarvelService from '../../services/MarvelService';
 class RandomChar extends Component {
 	constructor(props) {
 		super(props);
