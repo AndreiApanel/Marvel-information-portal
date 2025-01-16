@@ -10,6 +10,7 @@ class RandomChar extends Component {
 	}
 	state = {
 		char: {},
+		discription: '',
 		// name: null,
 		// discription: null,
 		// thumbnail: null,
@@ -21,6 +22,12 @@ class RandomChar extends Component {
 	onCharLoaded = (char) => {
 		this.setState({ char });
 	};
+	OnTextDiscr = ({ discription, maxlengh }) => {
+		if (discription.length > maxlengh) {
+			return discription.slice(0, maxlengh) + '...';
+		}
+		return this.setState({ discription });
+	};
 
 	updateChar = () => {
 		const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
@@ -31,6 +38,7 @@ class RandomChar extends Component {
 		const {
 			char: { name, discription, thumbnail, homepage, wiki },
 		} = this.state;
+
 		return (
 			<div className="randomchar">
 				<div className="randomchar__block">
