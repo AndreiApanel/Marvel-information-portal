@@ -12,7 +12,11 @@ import CharList from '../charList/CharList';
 import CharInfo from '../charInfo/CharInfo';
 
 import decoration from '../../pictures/vision.png';
+<<<<<<< HEAD
 >>>>>>> randomChar
+=======
+>>>>>>> randomchar
+>>>>>>> services
 
 export default function App() {
 	return (
