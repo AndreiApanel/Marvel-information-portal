@@ -3,6 +3,7 @@ import Spinner from '../spinner/Spinner;';
 import './randomChar.scss';
 import mjolnir from '../../pictures/mjolnir.png';
 import MarvelService from '../../services/MarvelService';
+import { sassTrue } from 'sass';
 class RandomChar extends Component {
 	constructor(props) {
 		super(props);
@@ -11,7 +12,9 @@ class RandomChar extends Component {
 	state = {
 		char: {},
 		loading: true,
+		error: false,
 		discription: '',
+
 		// name: null,
 		// discription: null,
 		// thumbnail: null,
@@ -21,9 +24,12 @@ class RandomChar extends Component {
 	marvelService = new MarvelService();
 
 	onCharLoaded = (char) => {
-		this.setState({ char });
+		this.setState({ char, loading: false });
 	};
-	OnTextDiscr = ({ discription, maxlengh }) => {
+	onError = () => {
+		this.setState({ loading: false, error: true });
+	};
+	onTextDiscr = ({ discription, maxlengh }) => {
 		if (discription.length > maxlengh) {
 			return discription.slice(0, maxlengh) + '...';
 		}
@@ -32,7 +38,10 @@ class RandomChar extends Component {
 
 	updateChar = () => {
 		const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-		this.marvelService.getCharacter(id).then(this.onCharLoaded);
+		this.marvelService
+			.getCharacter(id)
+			.then(this.onCharLoaded)
+			.catch(this.onError);
 	};
 	render() {
 		// const { name, discription, thumbnail, homepage, wiki } = this.state;
