@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import Spinner from '../spinner/Spinner;';
 import './randomChar.scss';
+import ErrorMessage from '../errorMessage/ErrorMessage';
 import mjolnir from '../../pictures/mjolnir.png';
 import MarvelService from '../../services/MarvelService';
-import { sassTrue } from 'sass';
 class RandomChar extends Component {
 	constructor(props) {
 		super(props);
@@ -45,11 +45,15 @@ class RandomChar extends Component {
 	};
 	render() {
 		// const { name, discription, thumbnail, homepage, wiki } = this.state;
-		const { char, loading } = this.state;
-
+		const { char, loading, error } = this.state;
+		const errorMessage = error ? <ErrorMessage /> : null;
+		const spinner = loading ? <Spinner /> : null;
+		const content = !(loading || error) ? <View char={char} /> : null;
 		return (
 			<div className="randomchar">
-				{loading ? <Spinner /> : <View char={char} />}
+				{errorMessage}
+				{spinner}
+				{content}
 				<div className="randomchar__static">
 					<p className="randomchar__title">
 						Random character for today!
