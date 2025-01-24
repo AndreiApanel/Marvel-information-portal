@@ -3,16 +3,8 @@ import RandomChar from '../randomChar/RandomChar';
 import CharList from '../charList/CharList';
 import CharInfo from '../charInfo/CharInfo';
 
-<<<<<<< HEAD
 import decoration from '../../pictures/vision.png';
-// import Spinner from '../spinner/spinner';
-=======
-import RandomChar from '../randomChar/RandomChar';
-import CharList from '../charList/CharList';
-import CharInfo from '../charInfo/CharInfo';
 
-import decoration from '../../pictures/vision.png';
->>>>>>> randomChar
 
 export default function App() {
 	return (
