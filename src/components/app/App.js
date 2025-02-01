@@ -1,10 +1,8 @@
 import AppHeader from '../appHeader/AppHeader';
-import RandomChar from '../randomChar/RandomChar';
-import CharList from '../charList/CharList';
-import CharInfo from '../charInfo/CharInfo';
 
 import decoration from '../../pictures/vision.png';
 
+import decoration from '../../pictures/vision.png';
 
 export default function App() {
 	return (
