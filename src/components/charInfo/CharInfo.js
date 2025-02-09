@@ -1,9 +1,64 @@
+import { Component } from 'react';
+import Spinner from '../spinner/Spinner';
+import ErrorMessage from '../errorMessage/ErrorMessage';
+import Skeleton from '../skeleton/Skeleton';
+import MarvelService from '../../services/MarvelService';
 import './charInfo.scss';
 import thor from '../../pictures/thor.jpeg';
 
-export default function CharInfo() {
+class CharInfo extends Component {
+	state = {
+		char: {},
+		loading: false,
+		error: false,
+	};
+
+	marvelService = new MarvelService();
+	componentDidMount() {
+		this.updateChar();
+	}
+	updateChar = () => {
+		const { charId } = this.props;
+		if (!charId) {
+			return;
+		}
+		this.onCharLoading();
+		this.marvelService
+			.getCharacter(charId)
+			.then(this.onCharLoaded)
+			.catch(this.onError);
+	};
+	onCharLoaded = (char) => {
+		this.setState({ char, loading: false });
+	};
+
+	onCharLoading = () => {
+		this.setState({ loading: true });
+	};
+	onError = () => {
+		this.setState({ loading: false, error: true });
+	};
+
+	render() {
+		const { char, loading, error } = this.state;
+		const skeleton = char || loading || error ? null : <Skeleton />;
+		const errorMessage = error ? <ErrorMessage /> : null;
+		const spinner = loading ? <Spinner /> : null;
+		const content = !(loading || error || !char) ? <View char={char} /> : null;
+		return (
+			<div className="char__info">
+				{skeleton}
+				{errorMessage}
+				{spinner}
+				{content}
+			</div>
+		);
+	}
+}
+
+const View = ({ char }) => {
 	return (
-		<div className="char__info">
+		<>
 			<div className="char__basics">
 				<img src={thor} alt="abyss" />
 				<div>
@@ -48,6 +103,7 @@ export default function CharInfo() {
 				<li className="char__comics-item">Avengers (1963) #1</li>
 				<li className="char__comics-item">Avengers (1996) #1</li>
 			</ul>
-		</div>
+		</>
 	);
-}
+};
+export default CharInfo;
