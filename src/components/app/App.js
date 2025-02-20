@@ -2,10 +2,8 @@ import { Component } from 'react';
 import AppHeader from '../appHeader/AppHeader';
 import CharList from '../charList/CharList';
 import CharInfo from '../charInfo/CharInfo';
-import RandomChar from '../randomChar/RandomChar';
 
 import decoration from '../../pictures/vision.png';
-
 class App extends Component {
 	state = {
 		selectedChar: null,
