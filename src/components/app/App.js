@@ -4,6 +4,7 @@ import CharList from '../charList/CharList';
 import CharInfo from '../charInfo/CharInfo';
 import RandomChar from '../randomChar/RandomChar';
 import decoration from '../../pictures/vision.png';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 class App extends Component {
 	state = {
 		selectedChar: null,
@@ -19,7 +20,9 @@ class App extends Component {
 					<RandomChar />
 					<div className="char__content">
 						<CharList onCharSelected={this.onCharSelected} />
-						<CharInfo charId={this.state.selectedChar} />
+						<ErrorBoundary>
+							<CharInfo charId={this.state.selectedChar} />
+						</ErrorBoundary>
 					</div>
 					<img className="bg-decoration" src={decoration} alt="vision" />
 				</main>
