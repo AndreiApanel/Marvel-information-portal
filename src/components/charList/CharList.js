@@ -1,9 +1,10 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './charList.scss';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import MarvelService from '../../services/MarvelService';
 class CharList extends Component {
+	ref = React.createRef();
 	state = {
 		charList: [],
 		loading: true,
@@ -15,6 +16,11 @@ class CharList extends Component {
 
 	marvelService = new MarvelService();
 	componentDidMount() {
+		// this.ref.current.addEventListener('keydown', (e) => {
+		// 	if (e.key === 'Tab') {
+		// 		e = this.ref.current.focus();
+		// 	}
+		// });
 		this.onRequest();
 	}
 
@@ -50,8 +56,20 @@ class CharList extends Component {
 			loading: false,
 		});
 	};
+	inputRefs = [];
+	setInputRef = (ref) => {
+		this.inputRefs.push(ref);
+	};
+
+	focusOnItem = (id) => {
+		this.itemRefs.forEach((item) =>
+			item.classList.remove('char__item_selected')
+		);
+		this.itemRefs[id].classList.add('char__item_selected');
+		this.itemRefs[id].focus();
+	};
 	renderItems(arr) {
-		const items = arr.map((item) => {
+		const items = arr.map((item, i) => {
 			let imgStyle = { objectFit: 'cover' };
 			if (
 				item.thumbnail ===
@@ -62,8 +80,18 @@ class CharList extends Component {
 			return (
 				<li
 					className="char__item"
+					ref={this.setInputRef}
 					key={item.id}
-					onClick={() => this.props.onCharSelected(item.id)}
+					onClick={() => {
+						this.props.onCharSelected(item.id);
+						this.focusOnItem(i);
+					}}
+					onKeyDown={(e) => {
+						if (e.key === '' || e.key === 'Enter') {
+							this.props.onCharSelected(item.id);
+							this.focusOnItem(i);
+						}
+					}}
 				>
 					<img src={item.thumbnail} alt={item.name} style={imgStyle} />
 					<div className="char__name">{item.name}</div>
