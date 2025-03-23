@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import Spinner from '../spinner/Spinner;';
+import Spinner from '../spinner/Spinner';
 import './randomChar.scss';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import mjolnir from '../../pictures/mjolnir.png';
