@@ -5,7 +5,6 @@ import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import MarvelService from '../../services/MarvelService';
 class CharList extends Component {
-	ref = React.createRef();
 	state = {
 		charList: [],
 		loading: true,
@@ -17,11 +16,6 @@ class CharList extends Component {
 
 	marvelService = new MarvelService();
 	componentDidMount() {
-		// this.ref.current.addEventListener('keydown', (e) => {
-		// 	if (e.key === 'Tab') {
-		// 		e = this.ref.current.focus();
-		// 	}
-		// });
 		this.onRequest();
 	}
 
