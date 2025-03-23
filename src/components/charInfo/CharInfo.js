@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
@@ -63,7 +64,7 @@ class CharInfo extends Component {
 
 const View = ({ char }) => {
 	const { name, description, thumbnail, homepage, wiki, comics } = char;
-  let imgStyle = { objectFit: 'cover' };
+	let imgStyle = { objectFit: 'cover' };
 	if (
 		thumbnail ===
 		'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
@@ -102,5 +103,8 @@ const View = ({ char }) => {
 			</ul>
 		</>
 	);
+};
+CharInfo.propTypes = {
+	charId: PropTypes.number,
 };
 export default CharInfo;
