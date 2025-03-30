@@ -74,6 +74,7 @@ class CharList extends Component {
 			return (
 				<li
 					className="char__item"
+					tabIndex={0}
 					ref={this.setInputRef}
 					key={item.id}
 					onClick={() => {
