@@ -9,7 +9,6 @@ class RandomChar extends Component {
 		char: {},
 		loading: true,
 		error: false,
-		discription: '',
 
 		// name: null,
 		// discription: null,
@@ -21,7 +20,7 @@ class RandomChar extends Component {
 
 	componentDidMount() {
 		this.updateChar();
-		this.timerId = setInterval(this.updateChar, 3000);
+		// this.timerId = setInterval(this.updateChar, 3000);
 	}
 
 	componentWillUnmount() {
@@ -30,14 +29,11 @@ class RandomChar extends Component {
 	onCharLoaded = (char) => {
 		this.setState({ char, loading: false });
 	};
+	onCharLoading = () => {
+		this.setState({ loading: true });
+	};
 	onError = () => {
 		this.setState({ loading: false, error: true });
-	};
-	onTextDiscr = ({ discription, maxlengh }) => {
-		if (discription.length > maxlengh) {
-			return discription.slice(0, maxlengh) + '...';
-		}
-		return this.setState({ discription });
 	};
 
 	updateChar = () => {
@@ -53,6 +49,7 @@ class RandomChar extends Component {
 		const errorMessage = error ? <ErrorMessage /> : null;
 		const spinner = loading ? <Spinner /> : null;
 		const content = !(loading || error) ? <View char={char} /> : null;
+
 		return (
 			<div className="randomchar">
 				{errorMessage}
@@ -65,7 +62,7 @@ class RandomChar extends Component {
 						Do you want to get to know him better?
 					</p>
 					<p className="randomchar__title">Or choose another one</p>
-					<button className="button button__main">
+					<button onClick={this.updateChar} className="button button__main">
 						<div className="inner">try it</div>
 					</button>
 					<img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
@@ -75,7 +72,7 @@ class RandomChar extends Component {
 	}
 }
 const View = ({ char }) => {
-	const { name, thumbnail, discription, homepage, wiki } = char;
+	const { name, thumbnail, description, homepage, wiki } = char;
 	let imgStyle = { objectFit: 'cover' };
 	if (
 		thumbnail ===
@@ -93,7 +90,7 @@ const View = ({ char }) => {
 			/>
 			<div className="randomchar__info">
 				<p className="randomchar__name">{name}</p>
-				<p className="randomchar__descr">{discription}</p>
+				<p className="randomchar__descr">{description}</p>
 				<div className="randomchar__btns">
 					<a href={homepage} className="button button__main">
 						<div className="inner">homepage</div>
