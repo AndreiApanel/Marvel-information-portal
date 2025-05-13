@@ -10,7 +10,6 @@
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"react-scripts": "^5.0.1",
-		"sass": "^1.83.1",
 		"web-vitals": "^4.2.4"
 	},
 	"scripts": {
@@ -41,6 +40,19 @@
 	},
 	"devDependencies": {
 		"@babel/plugin-transform-class-properties": "^7.25.9",
+		"sass": "^1.88.0",
+		"sass-loader": "^16.0.5",
 		"web-vitals": "^4.2.4"
+	},
+	"description": "#Sass: #React Native:",
+	"main": "index.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/AndreiApanel/Marvel-information-portal.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/AndreiApanel/Marvel-information-portal/issues"
 	}
 }
