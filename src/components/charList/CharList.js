@@ -46,8 +46,8 @@ const CharList = props => {
 
   const focusOnItem = id => {
     itemRefs.current.forEach(item => item.classList.remove('char__item_selected'));
-    itemRefs[id].current[id].classList.add('char__item_selected');
-    itemRefs[id].current[id].focus();
+    itemRefs.current[id].classList.add('char__item_selected');
+    itemRefs.current[id].focus();
   };
   function renderItems(arr) {
     const items = arr.map((item, i) => {
