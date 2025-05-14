@@ -15,7 +15,7 @@ const CharInfo = props => {
   const marvelService = new MarvelService();
   useEffect(() => {
     updateChar();
-  }, []);
+  }, [props.charId]);
   // componentDidMount() {
   // 	updateChar();
   // }
@@ -34,16 +34,17 @@ const CharInfo = props => {
     marvelService.getCharacter(charId).then(onCharLoaded).catch(onError);
   };
 
-  const onCharLoaded = () => {
-    setChar(false);
+  const onCharLoaded = char => {
+    setLoading(false);
+    setChar(char);
   };
 
   const onCharLoading = () => {
     setLoading(true);
   };
   const onError = () => {
-    setLoading(false);
     setError(true);
+    setLoading(false);
   };
 
   const skeleton = char || loading || error ? null : <Skeleton />;
