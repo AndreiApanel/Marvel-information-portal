@@ -34,6 +34,7 @@ const useMarvelService = () => {
     getCharacter,
     loading,
     error,
+    clearError,
   };
 };
 
