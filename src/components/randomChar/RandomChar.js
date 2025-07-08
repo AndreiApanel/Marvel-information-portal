@@ -4,6 +4,7 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
 import './randomChar.scss';
 import mjolnir from '../../pictures/mjolnir.png';
+
 const RandomChar = () => {
   const [char, setChar] = useState(null);
   const { loading, error, getCharacter, clearError } = useMarvelService();
