@@ -1,5 +1,7 @@
 @import '../../style/variables.scss';
-
+.active-link {
+  color: #9f0013;
+}
 .app {
     &__header {
         display: flex;
