@@ -12,13 +12,13 @@ export default function AppHeader() {
       <nav className="app__menu">
         <ul>
           <li>
-            <NavLink to="/" end className={({ isActive }) => (isActive ? 'active-link' : undefined)}>
+            <NavLink to="/" end className={({isActive}) => (isActive ? 'active-link' : undefined)}>
               Characters
             </NavLink>
           </li>
           /
           <li>
-            <NavLink to="/comics" className={({ isActive }) => (isActive ? 'active-link' : undefined)}>
+            <NavLink to="/comics" className={({isActive}) => (isActive ? 'active-link' : undefined)}>
               Comics
             </NavLink>
           </li>
