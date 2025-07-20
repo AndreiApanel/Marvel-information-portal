@@ -11,7 +11,7 @@ const CharList = props => {
   const [newItemLoading, setNewItemLoading] = useState(false);
   const [offset, setOffset] = useState(210);
   const [charEnded, setCharEnded] = useState(false);
-  const { loading, error, getAllCharacters } = useMarvelService();
+  const {loading, error, getAllCharacters} = useMarvelService();
   useEffect(() => {
     onRequest(offset, true);
   }, []);
@@ -80,13 +80,13 @@ const CharList = props => {
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading && !newItemLoading ? <Spinner /> : null;
 
-  if (loading) {
-    import('./someFunc.js')
-      .then(obj => {
-        obj.default();
-      })
-      .catch();
-  }
+  // if (loading) {
+  //   import('./someFunc.js')
+  //     .then(obj => {
+  //       obj.default();
+  //     })
+  //     .catch();
+  // }
 
   return (
     <div className="char__list">
@@ -96,7 +96,7 @@ const CharList = props => {
       <button
         className="button button__main button__long"
         disabled={newItemLoading}
-        style={{ display: charEnded ? 'none' : 'block' }}
+        style={{display: charEnded ? 'none' : 'block'}}
         onClick={() => onRequest(offset)}>
         <div className="inner">load more</div>
       </button>
