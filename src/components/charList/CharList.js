@@ -22,6 +22,10 @@ const CharList = props => {
   };
 
   const onCharListLoaded = newCharList => {
+    // const {logger, secondFunc} = await import('./someFunc.js');
+    // logger();
+    // secondFunc();
+
     let ended = false;
     if (newCharList.length < 9) {
       ended = true;
@@ -42,9 +46,9 @@ const CharList = props => {
   };
   function renderItems(arr) {
     const items = arr.map((item, i) => {
-      let imgStyle = { objectFit: 'cover' };
+      let imgStyle = {objectFit: 'cover'};
       if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
-        imgStyle = { objectFit: 'unset' };
+        imgStyle = {objectFit: 'unset'};
       }
 
       return (
@@ -75,6 +79,15 @@ const CharList = props => {
 
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading && !newItemLoading ? <Spinner /> : null;
+
+  if (loading) {
+    import('./someFunc.js')
+      .then(obj => {
+        obj.default();
+      })
+      .catch();
+  }
+
   return (
     <div className="char__list">
       {errorMessage}
