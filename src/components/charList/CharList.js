@@ -1,11 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
-import {Link} from 'react-router-dom';
+import {useState, useEffect, useRef, createRef} from 'react';
+import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import PropTypes from 'prop-types';
 import './charList.scss';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
+
 const CharList = props => {
   const [charList, setCharList] = useState([]);
   const [newItemLoading, setNewItemLoading] = useState(false);
@@ -39,54 +40,58 @@ const CharList = props => {
 
   const itemRefs = useRef([]);
 
-  const focusOnItem = id => {
-    itemRefs.current.forEach(item => item.classList.remove('char__item_selected'));
-    itemRefs.current[id].classList.add('char__item_selected');
-    itemRefs.current[id].focus();
-  };
-  function renderItems(arr) {
-    const items = arr.map((item, i) => {
-      let imgStyle = {objectFit: 'cover'};
-      if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
-        imgStyle = {objectFit: 'unset'};
-      }
-
-      return (
-        <li
-          className="char__item"
-          tabIndex={0}
-          ref={el => (itemRefs.current[i] = el)}
-          key={item.id}
-          onClick={() => {
-            props.onCharSelected(item.id);
-            focusOnItem(i);
-          }}
-          onKeyDown={e => {
-            if (e.key === ' ' || e.key === 'Enter') {
-              props.onCharSelected(item.id);
-              focusOnItem(i);
-            }
-          }}>
-          <img src={item.thumbnail} alt={item.name} style={imgStyle} />
-          <div className="char__name">{item.name}</div>
-        </li>
-      );
+  const focusOnItem = index => {
+    console.log('Clearing selection from all items');
+    itemRefs.current.forEach(ref => {
+      if (ref.current) ref.current.classList.remove('char__item_selected');
     });
+    const node = itemRefs.current[index].current;
+    console.log('Selecting item at index', index);
+    if (node) {
+      node.classList.add('char__item_selected');
+      node.focus();
+    }
+  };
 
-    return <ul className="char__grid">{items}</ul>;
-  }
+  const renderItems = arr => {
+    itemRefs.current = [];
+
+    return (
+      <TransitionGroup component="ul" className="char__grid">
+        {arr.map((item, i) => {
+          const ref = createRef();
+          itemRefs.current.push(ref);
+          const imgStyle = item.thumbnail.includes('image_not_available') ? {objectFit: 'unset'} : {objectFit: 'cover'};
+          return (
+            <CSSTransition key={item.id} timeout={500} classNames="item" nodeRef={ref}>
+              <li
+                className="char__item"
+                tabIndex={0}
+                ref={ref}
+                onClick={() => {
+                  props.onCharSelected(item.id);
+                  focusOnItem(i);
+                }}
+                onKeyDown={e => {
+                  if (e.key === ' ' || e.key === 'Enter') {
+                    props.onCharSelected(item.id);
+                    focusOnItem(i);
+                  }
+                }}>
+                <img src={item.thumbnail} alt={item.name} style={imgStyle} />
+                <div className="char__name">{item.name}</div>
+              </li>
+            </CSSTransition>
+          );
+        })}
+      </TransitionGroup>
+    );
+  };
+
   const items = renderItems(charList);
 
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading && !newItemLoading ? <Spinner /> : null;
-
-  // if (loading) {
-  //   import('./someFunc.js')
-  //     .then(obj => {
-  //       obj.default();
-  //     })
-  //     .catch();
-  // }
 
   return (
     <div className="char__list">
@@ -108,3 +113,11 @@ CharList.propTypes = {
   onCharSelected: PropTypes.func.isRequired,
 };
 export default CharList;
+
+// if (loading) {
+//   import('./someFunc.js')
+//     .then(obj => {
+//       obj.default();
+//     })
+//     .catch();
+// }
