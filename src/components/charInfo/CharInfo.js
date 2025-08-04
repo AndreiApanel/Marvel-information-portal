@@ -5,12 +5,13 @@ import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
 
+
 import './charInfo.scss';
 // import thor from '../../pictures/thor.jpeg';
 
 const CharInfo = props => {
   const [char, setChar] = useState(null);
-  const { loading, error, getCharacter, clearError } = useMarvelService();
+  const {loading, error, getCharacter, clearError} = useMarvelService();
   useEffect(() => {
     updateChar();
   }, [props.charId]);
@@ -24,7 +25,7 @@ const CharInfo = props => {
   // }
 
   const updateChar = () => {
-    const { charId } = props;
+    const {charId} = props;
     if (!charId) {
       return;
     }
@@ -50,11 +51,11 @@ const CharInfo = props => {
   );
 };
 
-const View = ({ char }) => {
-  const { name, description, thumbnail, homepage, wiki, comics } = char;
-  let imgStyle = { objectFit: 'cover' };
+const View = ({char}) => {
+  const {name, description, thumbnail, homepage, wiki, comics} = char;
+  let imgStyle = {objectFit: 'cover'};
   if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
-    imgStyle = { objectFit: 'contain' };
+    imgStyle = {objectFit: 'contain'};
   }
   return (
     <>
@@ -89,6 +90,7 @@ const View = ({ char }) => {
     </>
   );
 };
+
 
 CharInfo.propTypes = {
   charId: PropTypes.number,
