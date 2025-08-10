@@ -1,5 +1,5 @@
-import AppBanner from '../appBanner/appBanner';
-import Character from '../character/character';
+import AppBanner from '../../appBanner/appBanner';
+import Character from '../../character/character';
 
 const CharacterPage = () => {
   <>
