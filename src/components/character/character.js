@@ -3,7 +3,6 @@ import {useParams, Link} from 'react-router-dom';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
-import Skeleton from '../skeleton/Skeleton';
 
 import './character.scss';
 
@@ -25,48 +24,35 @@ const Character = props => {
   const onCharLoaded = char => {
     setChar(char);
   };
-  const skeleton = char || loading || error ? null : <Skeleton />;
+
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading ? <Spinner /> : null;
   const content = !(loading || error || !char) ? <View char={char} /> : null;
   return (
-    <div className='char__info'>
-      {skeleton}
+    <>
       {errorMessage}
       {spinner}
       {content}
-    </div>
-  );
-};
-const View = ({char}) => {
-  const {name, description, thumbnail, homepage, wiki, comics} = char;
-  let imgStyle = {objectFit: 'cover'};
-  if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
-    imgStyle = {objectFit: 'contain'};
-  }
-  return (
-    <>
-      <div className='char__basics'>
-        <img src={thumbnail} alt={name} style={imgStyle} />
-        <div>
-          <div className='char__info-name'>{name}</div>
-          <div className='char__btns'>
-            <a href={homepage} className='button button__main'>
-              <div className='inner'>homepage</div>
-            </a>
-            <a href={wiki} className='button button__secondary'>
-              <div className='inner'>Wiki</div>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div className='char__descr'>{description}</div>
-      <div className='char__comics'>Comics:</div>
-      <div className='char__comics-list'>
-        {comics.length > 0 ? null : 'There are no comics with this character'}
-        return (<div className='char__comics-item'>{item.name}</div>
-        );
-      </div>
     </>
   );
 };
+const View = ({comic}) => {
+  const {title, description, thumbnail, pageCount, language, price} = comic;
+  return (
+    <div className='single-comic'>
+      <img src={thumbnail} alt={title} className='single-comic__img' />
+      <div className='single-comic__info'>
+        <h2 className='single-comic__name'>{title}</h2>
+        <p className='single-comic__descr'>{description}</p>
+        <p className='single-comic__descr'>{pageCount} pages</p>
+        <p className='single-comic__descr'>Language: {language}</p>
+        <div className='single-comic__price'>{price}</div>
+      </div>
+      <Link to='/comics' className='single-comic__back'>
+        Back to all
+      </Link>
+    </div>
+  );
+};
+
+export default Character;

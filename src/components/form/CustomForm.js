@@ -18,7 +18,7 @@ const CustomForm = () => {
         <p className='custom__form__name'>Or find a character by name:</p>
         <form onSubmit={handleSubmit(onSubmit)} className='custom__form'>
           <input
-            {...register('exampleRequired', {required: true, minLength: 5})}
+            {...register('exampleRequired', {required: true, minLength: 2})}
             className='custom__form__input'
             type='text'
             placeholder='Enter name'
