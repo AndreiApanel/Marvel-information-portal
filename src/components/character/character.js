@@ -7,19 +7,19 @@ import useMarvelService from '../../services/MarvelService';
 import './character.scss';
 
 const Character = props => {
-  const charId = useParams();
+  const name = useParams();
   const [character, setCharacter] = useState(null);
-  const {loading, error, getCharacter, clearError} = useMarvelService();
+  const {loading, error, getCharacterByName, clearError} = useMarvelService();
   useEffect(() => {
     updateChar();
-  }, [charId]);
+  }, [name]);
   const updateChar = () => {
-    const {charId} = props;
-    if (!charId) {
+    const {name} = props;
+    if (!name) {
       return;
     }
     clearError();
-    getCharacter(charId).then(onCharLoaded);
+    getCharacterByName(name).then(onCharLoaded);
   };
   const onCharLoaded = character => {
     setCharacter(character);
@@ -37,7 +37,7 @@ const Character = props => {
   );
 };
 const View = ({character}) => {
-  const {name, description, thumbnail, pageCount, language, price} = character;
+  const {name, description, thumbnail} = character;
   return (
     <div className='character'>
       <img src={thumbnail} alt={name} className='character__img' />

@@ -1,8 +1,9 @@
 import {useForm} from 'react-hook-form';
-
+import useMarvelService from '../../services/MarvelService';
 import './form.scss';
 
 const CustomForm = () => {
+  const {getCharacterByName} = useMarvelService();
   const {
     register,
     handleSubmit,
@@ -10,7 +11,7 @@ const CustomForm = () => {
     formState: {errors},
   } = useForm();
 
-  const onSubmit = data => console.log(data);
+  const onSubmit = data => getCharacterByName(data.characterName);
   console.log(watch('example'));
   return (
     <>
@@ -18,7 +19,7 @@ const CustomForm = () => {
         <p className='custom__form__name'>Or find a character by name:</p>
         <form onSubmit={handleSubmit(onSubmit)} className='custom__form'>
           <input
-            {...register('exampleRequired', {required: true, minLength: 2})}
+            {...register('characterName', {required: true, minLength: 2})}
             className='custom__form__input'
             type='text'
             placeholder='Enter name'
@@ -27,9 +28,11 @@ const CustomForm = () => {
             <div className='inner'>Find</div>
           </button>
         </form>
-        {errors.exampleRequired && <span>This field is required</span> ? (
-          <div className='custom__errors'>This field is required</div>
-        ) : null}
+        {errors.characterName && (
+          <div className='custom__errors'>
+            {errors.characterName.type === 'required' ? 'This field is required' : 'Minimum length is 2 characters'}
+          </div>
+        )}
       </div>
     </>
   );
