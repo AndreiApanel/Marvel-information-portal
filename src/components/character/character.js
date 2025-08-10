@@ -27,7 +27,7 @@ const Character = props => {
 
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading ? <Spinner /> : null;
-  const content = !(loading || error || !character) ? <View char={char} /> : null;
+  const content = !(loading || error || !character) ? <View chararacter={character} /> : null;
   return (
     <>
       {errorMessage}
@@ -37,16 +37,13 @@ const Character = props => {
   );
 };
 const View = ({character}) => {
-  const {title, description, thumbnail, pageCount, language, price} = character;
+  const {name, description, thumbnail, pageCount, language, price} = character;
   return (
     <div className='character'>
-      <img src={thumbnail} alt={title} className='single-comic__img' />
+      <img src={thumbnail} alt={name} className='character__img' />
       <div className='character__info'>
-        <h2 className='character__name'>{title}</h2>
+        <h2 className='character__name'>{name}</h2>
         <p className='character__descr'>{description}</p>
-        <p className='character__descr'>{pageCount} pages</p>
-        <p className='character__descr'>Language: {language}</p>
-        <div className='character__price'>{price}</div>
       </div>
       <Link to='/character' className='character__back'>
         Back to all
