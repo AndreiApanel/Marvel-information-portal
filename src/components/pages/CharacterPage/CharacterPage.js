@@ -2,10 +2,12 @@ import AppBanner from '../../appBanner/appBanner';
 import Character from '../../character/character';
 
 const CharacterPage = () => {
-  <>
-    <AppBanner />
-    <Character />
-  </>;
+  return (
+    <>
+      <AppBanner />
+      <Character />
+    </>
+  );
 };
 
 export default CharacterPage;
