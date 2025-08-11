@@ -4,7 +4,7 @@
   &__form__container {
     margin-top: 30px;
     min-height: 127px;
-    padding: 0 25px;
+    padding: 0 25px 25px 25px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
     position: relative;
     z-index: 5;
@@ -14,6 +14,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 20px;
     &__name {
       font-weight: bold;
@@ -30,10 +31,14 @@
     width: 250px;
     height: 38px;
   }
-  &__errors {
-    padding: 25px 0 25px 0;
-    color: $main-color;
+  &__message {
     font-weight: bold;
     font-size: 18px;
+    &.error {
+      color: $main-color;
+    }
+    &.success {
+      color: $green;
+    }
   }
 }

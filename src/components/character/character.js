@@ -7,27 +7,23 @@ import useMarvelService from '../../services/MarvelService';
 import './character.scss';
 
 const Character = props => {
-  const name = useParams();
+  const {name} = useParams();
   const [character, setCharacter] = useState(null);
   const {loading, error, getCharacterByName, clearError} = useMarvelService();
   useEffect(() => {
-    updateChar();
-  }, [name]);
-  const updateChar = () => {
-    const {name} = props;
-    if (!name) {
-      return;
-    }
+    if (!name) return;
     clearError();
     getCharacterByName(name).then(onCharLoaded);
-  };
+  }, [name]);
+
   const onCharLoaded = character => {
     setCharacter(character);
   };
 
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading ? <Spinner /> : null;
-  const content = !(loading || error || !character) ? <View chararacter={character} /> : null;
+  const content = !(loading || error || !character) ? <View character={character} /> : null;
+
   return (
     <>
       {errorMessage}
@@ -37,7 +33,10 @@ const Character = props => {
   );
 };
 const View = ({character}) => {
-  const {name, description, thumbnail} = character;
+  let {name, description, thumbnail} = character;
+  if (!description) {
+    description = 'No description available for this character.';
+  }
   return (
     <div className='character'>
       <img src={thumbnail} alt={name} className='character__img' />
