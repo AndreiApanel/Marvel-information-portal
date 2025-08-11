@@ -6,7 +6,7 @@ import useMarvelService from '../../services/MarvelService';
 
 import './character.scss';
 
-const Character = props => {
+const Character = () => {
   const {name} = useParams();
   const [character, setCharacter] = useState(null);
   const {loading, error, getCharacterByName, clearError} = useMarvelService();
