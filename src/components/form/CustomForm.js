@@ -1,12 +1,12 @@
 import {useForm} from 'react-hook-form';
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
-// import useMarvelService from '../../services/MarvelService';
+import useMarvelService from '../../services/MarvelService';
 import './form.scss';
 
 const CustomForm = () => {
   const [characterName, setCharacterName] = useState(null);
-  // const {getCharacterByName} = useMarvelService();
+  const {getCharacterByName} = useMarvelService();
   const {
     register,
     handleSubmit,
@@ -36,7 +36,17 @@ const CustomForm = () => {
         <p className='custom__form__name'>Or find a character by name:</p>
         <form onSubmit={handleSubmit(onSubmit)} className='custom__form'>
           <input
-            {...register('characterName', {required: true, minLength: 2})}
+            {...register('characterName', {
+              required: 'This field is required',
+              minLength: {
+                value: 2,
+                message: 'Minimum length is 2 characters',
+              },
+              validate: async name => {
+                const char = await getCharacterByName(name);
+                return char ? true : 'The character was not found. Check the name and try again';
+              },
+            })}
             className='custom__form__input'
             type='text'
             placeholder='Enter name'
