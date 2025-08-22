@@ -13,7 +13,12 @@ const CustomForm = () => {
     formState: {errors},
   } = useForm();
 
-  const onSubmit = data => setCharacterName(data.characterName);
+  const onSubmit = async data => {
+    const char = await getCharacterByName(data.characterName);
+    setCharacterName(char[0]);
+  };
+  console.log(characterName);
+
   const renderMessage = () => {
     if (errors.characterName) {
       return {
@@ -23,7 +28,7 @@ const CustomForm = () => {
     }
     if (characterName) {
       return {
-        text: `There is! Visit ${characterName} page?`,
+        text: `There is! Visit ${characterName.name} page?`,
         type: 'success',
       };
     }
@@ -44,7 +49,7 @@ const CustomForm = () => {
               },
               validate: async name => {
                 const char = await getCharacterByName(name);
-                return char ? true : 'The character was not found. Check the name and try again';
+                return char.length > 0 || 'The character was not found. Check the name and try again';
               },
             })}
             className='custom__form__input'
@@ -60,7 +65,7 @@ const CustomForm = () => {
             <button className='button button__secondary' type='submit'>
               <div className='inner'>
                 {' '}
-                <Link to={`/character/${characterName}`}>TO PAGE </Link>
+                <Link to={`/character/${characterName.id}`}>TO PAGE </Link>
               </div>
             </button>
           )}
