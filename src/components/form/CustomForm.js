@@ -1,12 +1,13 @@
 import {useForm} from 'react-hook-form';
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
+import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
 import './form.scss';
 
 const CustomForm = () => {
   const [characterName, setCharacterName] = useState(null);
-  const {getCharacterByName} = useMarvelService();
+  const {error, getCharacterByName} = useMarvelService();
   const {
     register,
     handleSubmit,
@@ -22,7 +23,10 @@ const CustomForm = () => {
   const renderMessage = () => {
     if (errors.characterName) {
       return {
-        text: errors.characterName.type === 'required' ? 'This field is required' : 'Minimum length is 2 characters',
+        text:
+          errors.characterName.type === 'required'
+            ? 'This field is required'
+            : 'The character was not found. Check the name and try again',
         type: 'error',
       };
     }
@@ -35,6 +39,11 @@ const CustomForm = () => {
     return {text: '', type: ''};
   };
   const message = renderMessage();
+  const errorMessage = error ? (
+    <div className='char__search-critical-error'>
+      <ErrorMessage />
+    </div>
+  ) : null;
   return (
     <>
       <div className='custom__form__container'>
@@ -70,6 +79,7 @@ const CustomForm = () => {
             </button>
           )}
         </form>
+        {errorMessage}
       </div>
     </>
   );
