@@ -2,6 +2,7 @@ import './singleCharacterLayout.scss';
 import {Helmet} from 'react-helmet';
 
 const SingleCharacterLayout = ({data}) => {
+  if (!data) return null;
   const {name, description, thumbnail} = data;
 
   return (
