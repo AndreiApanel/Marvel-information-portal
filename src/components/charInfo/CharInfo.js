@@ -1,20 +1,17 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import useMarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
 
-
 import './charInfo.scss';
 // import thor from '../../pictures/thor.jpeg';
 
-const CharInfo = props => {
+const CharInfo = ({charId}) => {
   const [char, setChar] = useState(null);
   const {loading, error, getCharacter, clearError} = useMarvelService();
-  useEffect(() => {
-    updateChar();
-  }, [props.charId]);
+
   // componentDidMount() {
   // 	updateChar();
   // }
@@ -24,25 +21,22 @@ const CharInfo = props => {
   // 	}
   // }
 
-  const updateChar = () => {
-    const {charId} = props;
-    if (!charId) {
-      return;
-    }
+  const updateChar = useCallback(() => {
+    if (!charId) return;
     clearError();
-    getCharacter(charId).then(onCharLoaded);
-  };
+    getCharacter(charId).then(setChar);
+  }, [charId, clearError, getCharacter]);
 
-  const onCharLoaded = char => {
-    setChar(char);
-  };
+  useEffect(() => {
+    updateChar();
+  }, [updateChar]);
 
   const skeleton = char || loading || error ? null : <Skeleton />;
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading ? <Spinner /> : null;
   const content = !(loading || error || !char) ? <View char={char} /> : null;
   return (
-    <div className="char__info">
+    <div className='char__info'>
       {skeleton}
       {errorMessage}
       {spinner}
@@ -59,29 +53,29 @@ const View = ({char}) => {
   }
   return (
     <>
-      <div className="char__basics">
+      <div className='char__basics'>
         <img src={thumbnail} alt={name} style={imgStyle} />
         <div>
-          <div className="char__info-name">{name}</div>
-          <div className="char__btns">
-            <a href={homepage} className="button button__main">
-              <div className="inner">homepage</div>
+          <div className='char__info-name'>{name}</div>
+          <div className='char__btns'>
+            <a href={homepage} className='button button__main'>
+              <div className='inner'>homepage</div>
             </a>
-            <a href={wiki} className="button button__secondary">
-              <div className="inner">Wiki</div>
+            <a href={wiki} className='button button__secondary'>
+              <div className='inner'>Wiki</div>
             </a>
           </div>
         </div>
       </div>
-      <div className="char__descr">{description}</div>
-      <div className="char__comics">Comics:</div>
-      <ul className="char__comics-list">
+      <div className='char__descr'>{description}</div>
+      <div className='char__comics'>Comics:</div>
+      <ul className='char__comics-list'>
         {comics.length > 0 ? null : 'There are no comics with this character'}
         {comics.map((item, i) => {
           //eslint-disable-next-line
           if (i > 9) return;
           return (
-            <li key={i} className="char__comics-item">
+            <li key={i} className='char__comics-item'>
               {item.name}
             </li>
           );
@@ -90,7 +84,6 @@ const View = ({char}) => {
     </>
   );
 };
-
 
 CharInfo.propTypes = {
   charId: PropTypes.number,

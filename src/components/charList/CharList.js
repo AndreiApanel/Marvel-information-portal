@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef, createRef} from 'react';
+import {useState, useEffect, useRef, createRef, useCallback} from 'react';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import PropTypes from 'prop-types';
@@ -13,14 +13,17 @@ const CharList = props => {
   const [offset, setOffset] = useState(210);
   const [charEnded, setCharEnded] = useState(false);
   const {loading, error, getAllCharacters} = useMarvelService();
+
+  const onRequest = useCallback(
+    (offset, initial) => {
+      initial ? setNewItemLoading(false) : setNewItemLoading(true);
+      getAllCharacters(offset).then(onCharListLoaded);
+    },
+    [getAllCharacters],
+  );
   useEffect(() => {
     onRequest(offset, true);
-  }, []);
-
-  const onRequest = (offset, initial) => {
-    initial ? setNewItemLoading(false) : setNewItemLoading(true);
-    getAllCharacters(offset).then(onCharListLoaded);
-  };
+  }, [offset, onRequest]);
 
   const onCharListLoaded = newCharList => {
     // const {logger, secondFunc} = await import('./someFunc.js');
@@ -57,15 +60,15 @@ const CharList = props => {
     itemRefs.current = [];
 
     return (
-      <TransitionGroup component="ul" className="char__grid">
+      <TransitionGroup component='ul' className='char__grid'>
         {arr.map((item, i) => {
           const ref = createRef();
           itemRefs.current.push(ref);
           const imgStyle = item.thumbnail.includes('image_not_available') ? {objectFit: 'unset'} : {objectFit: 'cover'};
           return (
-            <CSSTransition key={item.id} timeout={500} classNames="item" nodeRef={ref}>
+            <CSSTransition key={item.id} timeout={500} classNames='item' nodeRef={ref}>
               <li
-                className="char__item"
+                className='char__item'
                 tabIndex={0}
                 ref={ref}
                 onClick={() => {
@@ -79,7 +82,7 @@ const CharList = props => {
                   }
                 }}>
                 <img src={item.thumbnail} alt={item.name} style={imgStyle} />
-                <div className="char__name">{item.name}</div>
+                <div className='char__name'>{item.name}</div>
               </li>
             </CSSTransition>
           );
@@ -94,16 +97,16 @@ const CharList = props => {
   const spinner = loading && !newItemLoading ? <Spinner /> : null;
 
   return (
-    <div className="char__list">
+    <div className='char__list'>
       {errorMessage}
       {spinner}
       {items}
       <button
-        className="button button__main button__long"
+        className='button button__main button__long'
         disabled={newItemLoading}
         style={{display: charEnded ? 'none' : 'block'}}
         onClick={() => onRequest(offset)}>
-        <div className="inner">load more</div>
+        <div className='inner'>load more</div>
       </button>
     </div>
   );
