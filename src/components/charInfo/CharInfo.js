@@ -22,9 +22,14 @@ const CharInfo = ({charId}) => {
   // }
 
   const updateChar = useCallback(() => {
-    if (!charId) return;
+    if (!charId) {
+      console.warn('No charId → skipping fetch');
+      return;
+    }
     clearError();
-    getCharacter(charId).then(setChar);
+    getCharacter(charId)
+      .then(setChar)
+      .catch(err => console.error('Failed to fetch character:', err));
   }, [charId, clearError, getCharacter]);
 
   useEffect(() => {

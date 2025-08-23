@@ -32,17 +32,17 @@ const ComicsList = () => {
   );
 
   useEffect(() => {
-    onRequest(offset, true);
-  }, [onRequest, offset]);
+    onRequest(0, true); // always start at 0 on mount
+  }, [onRequest]);
 
   function renderItems(arr) {
     const items = arr.map((item, i) => {
       return (
-        <li className='comics__item' key={i}>
+        <li className='comics__item' key={item.id}>
           <Link to={`/comics/${item.id}`}>
             <img src={item.thumbnail} alt={item.title} className='comics__item-img' />
             <div className='comics__item-name'>{item.title}</div>
-            <div className='comics__item-price'>{item.price}</div>
+            <div className='comics__item-price'>{item.price ? `${item.price}$` : 'Not available'}</div>
           </Link>
         </li>
       );
