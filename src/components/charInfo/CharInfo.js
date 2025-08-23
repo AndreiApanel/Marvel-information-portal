@@ -10,7 +10,7 @@ import './charInfo.scss';
 
 const CharInfo = ({charId}) => {
   const [char, setChar] = useState(null);
-  const {loading, error, getCharacter, clearError} = useMarvelService();
+  const {getCharacter, clearError, process, setProcess} = useMarvelService();
 
   // componentDidMount() {
   // 	updateChar();
@@ -22,30 +22,38 @@ const CharInfo = ({charId}) => {
   // }
 
   const updateChar = useCallback(() => {
-    if (!charId) return; // wait until a character is selected
+    if (!charId) return;
     clearError();
     getCharacter(charId)
       .then(setChar)
+      .then(() => setProcess('confirmed'))
       .catch(err => console.error(err));
-  }, [charId, clearError, getCharacter]);
+  }, [charId, clearError, getCharacter, setProcess]);
 
   useEffect(() => {
     updateChar();
   }, [updateChar]);
 
-  const skeleton = !char && !loading && !error ? <Skeleton /> : null;
-  const errorMessage = error ? <ErrorMessage /> : null;
-  const spinner = loading ? <Spinner /> : null;
-  const content = char && !(loading || error) ? <View char={char} /> : null;
-  return (
-    <div className='char__info'>
-      {!char && !loading && !error}
-      {skeleton}
-      {errorMessage}
-      {spinner}
-      {content}
-    </div>
-  );
+  const setContent = (process, char) => {
+    switch (process) {
+      case 'waiting':
+        return <Skeleton />;
+      case 'loading':
+        return <Spinner />;
+      case 'error':
+        return <ErrorMessage />;
+      case 'confirmed':
+        return <View char={char} />;
+      default:
+        throw new Error('Unexpected process state');
+    }
+  };
+
+  // const skeleton = !char && !loading && !error ? <Skeleton /> : null;
+  // const errorMessage = error ? <ErrorMessage /> : null;
+  // const spinner = loading ? <Spinner /> : null;
+  // const content = char && !(loading || error) ? <View char={char} /> : null;
+  return <div className='char__info'>{setContent(process, char)}</div>;
 };
 
 const View = ({char}) => {
