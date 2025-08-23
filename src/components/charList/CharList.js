@@ -22,8 +22,8 @@ const CharList = props => {
     [getAllCharacters],
   );
   useEffect(() => {
-    onRequest(offset, true);
-  }, [offset, onRequest]);
+    onRequest(210, true);
+  }, [onRequest]);
 
   const onCharListLoaded = newCharList => {
     // const {logger, secondFunc} = await import('./someFunc.js');
@@ -41,15 +41,13 @@ const CharList = props => {
     setCharEnded(ended);
   };
 
-  const itemRefs = useRef([]);
+  const itemRefs = useRef({});
 
-  const focusOnItem = index => {
-    console.log('Clearing selection from all items');
-    itemRefs.current.forEach(ref => {
-      if (ref.current) ref.current.classList.remove('char__item_selected');
+  const focusOnItem = id => {
+    Object.values(itemRefs.current).forEach(ref => {
+      if (ref?.current) ref.current.classList.remove('char__item_selected');
     });
-    const node = itemRefs.current[index].current;
-    console.log('Selecting item at index', index);
+    const node = itemRefs.current[id]?.current;
     if (node) {
       node.classList.add('char__item_selected');
       node.focus();
@@ -57,13 +55,13 @@ const CharList = props => {
   };
 
   const renderItems = arr => {
-    itemRefs.current = [];
+    itemRefs.current = {};
 
     return (
       <TransitionGroup component='ul' className='char__grid'>
         {arr.map((item, i) => {
           const ref = createRef();
-          itemRefs.current.push(ref);
+          itemRefs.current[item.id] = ref;
           const imgStyle = item.thumbnail.includes('image_not_available') ? {objectFit: 'unset'} : {objectFit: 'cover'};
           return (
             <CSSTransition key={item.id} timeout={500} classNames='item' nodeRef={ref}>

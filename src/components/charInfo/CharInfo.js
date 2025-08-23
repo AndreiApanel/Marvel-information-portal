@@ -22,26 +22,24 @@ const CharInfo = ({charId}) => {
   // }
 
   const updateChar = useCallback(() => {
-    if (!charId) {
-      console.warn('No charId → skipping fetch');
-      return;
-    }
+    if (!charId) return; // wait until a character is selected
     clearError();
     getCharacter(charId)
       .then(setChar)
-      .catch(err => console.error('Failed to fetch character:', err));
+      .catch(err => console.error(err));
   }, [charId, clearError, getCharacter]);
 
   useEffect(() => {
     updateChar();
   }, [updateChar]);
 
-  const skeleton = char || loading || error ? null : <Skeleton />;
+  const skeleton = !char && !loading && !error ? <Skeleton /> : null;
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading ? <Spinner /> : null;
-  const content = !(loading || error || !char) ? <View char={char} /> : null;
+  const content = char && !(loading || error) ? <View char={char} /> : null;
   return (
     <div className='char__info'>
+      {!char && !loading && !error}
       {skeleton}
       {errorMessage}
       {spinner}
@@ -53,9 +51,8 @@ const CharInfo = ({charId}) => {
 const View = ({char}) => {
   const {name, description, thumbnail, homepage, wiki, comics} = char;
   let imgStyle = {objectFit: 'cover'};
-  if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
-    imgStyle = {objectFit: 'contain'};
-  }
+  if (thumbnail.includes('image_not_available')) imgStyle = {objectFit: 'contain'};
+
   return (
     <>
       <div className='char__basics'>
@@ -75,16 +72,13 @@ const View = ({char}) => {
       <div className='char__descr'>{description}</div>
       <div className='char__comics'>Comics:</div>
       <ul className='char__comics-list'>
-        {comics.length > 0 ? null : 'There are no comics with this character'}
-        {comics.map((item, i) => {
-          //eslint-disable-next-line
-          if (i > 9) return;
-          return (
-            <li key={i} className='char__comics-item'>
-              {item.name}
-            </li>
-          );
-        })}
+        {comics.length
+          ? comics.slice(0, 10).map((item, i) => (
+              <li key={i} className='char__comics-item'>
+                {item.name}
+              </li>
+            ))
+          : 'There are no comics with this character'}
       </ul>
     </>
   );
@@ -93,4 +87,5 @@ const View = ({char}) => {
 CharInfo.propTypes = {
   charId: PropTypes.number,
 };
+
 export default CharInfo;
