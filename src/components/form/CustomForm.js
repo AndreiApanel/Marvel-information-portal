@@ -68,15 +68,11 @@ const CustomForm = () => {
           <button className='button button__main' type='submit'>
             <div className='inner'>Find</div>
           </button>
-
           {message.text && <div className={`custom__message ${message.type}`}>{message.text}</div>}
           {message.type === 'success' && (
-            <button className='button button__secondary' type='submit'>
-              <div className='inner'>
-                {' '}
-                <Link to={`/character/${characterName.id}`}>TO PAGE </Link>
-              </div>
-            </button>
+            <Link to={`/characters/${characterName.id}`} className='button button__secondary'>
+              <div className='inner'>TO PAGE</div>
+            </Link>
           )}
         </form>
         {errorMessage}

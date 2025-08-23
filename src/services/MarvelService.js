@@ -1,4 +1,5 @@
 import apiKey from '../variable/apiKey';
+import {useCallback} from 'react';
 import {useHttp} from '../hooks/http.hook';
 const useMarvelService = () => {
   const {loading, error, request, clearError} = useHttp();
@@ -6,27 +7,41 @@ const useMarvelService = () => {
   const _apiBase = 'https://gateway.marvel.com:443/v1/public/';
 
   const _baseOffset = 210;
-
-  const getAllCharacters = async (offset = _baseOffset) => {
-    const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${apiKey}`);
-    return res.data.results.map(_transformCharacter);
-  };
-  const getCharacter = async id => {
-    const res = await request(`${_apiBase}characters/${id}?${apiKey}`);
-    return _transformCharacter(res.data.results[0]);
-  };
-  const getCharacterByName = async name => {
-    const res = await request(`${_apiBase}characters?name=${name}&${apiKey}`);
-    return res.data.results.map(_transformCharacter);
-  };
-  const getAllComics = async (offset = 0) => {
-    const res = await request(`${_apiBase}comics?orderBy=issueNumber&limit=8&offset=${offset}&${apiKey}`);
-    return res.data.results.map(_transformComics);
-  };
-  const getComic = async id => {
-    const res = await request(`${_apiBase}comics/${id}?${apiKey}`);
-    return _transformComics(res.data.results[0]);
-  };
+  const getAllCharacters = useCallback(
+    async (offset = _baseOffset) => {
+      const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${apiKey}`);
+      return res.data.results.map(_transformCharacter);
+    },
+    [request],
+  );
+  const getCharacter = useCallback(
+    async id => {
+      const res = await request(`${_apiBase}characters/${id}?${apiKey}`);
+      return _transformCharacter(res.data.results[0]);
+    },
+    [request],
+  );
+  const getCharacterByName = useCallback(
+    async name => {
+      const res = await request(`${_apiBase}characters?name=${name}&${apiKey}`);
+      return res.data.results.map(_transformCharacter);
+    },
+    [request],
+  );
+  const getAllComics = useCallback(
+    async (offset = 0) => {
+      const res = await request(`${_apiBase}comics?orderBy=issueNumber&limit=8&offset=${offset}&${apiKey}`);
+      return res.data.results.map(_transformComics);
+    },
+    [request],
+  );
+  const getComic = useCallback(
+    async id => {
+      const res = await request(`${_apiBase}comics/${id}?${apiKey}`);
+      return _transformComics(res.data.results[0]);
+    },
+    [request],
+  );
 
   const _transformCharacter = char => {
     return {

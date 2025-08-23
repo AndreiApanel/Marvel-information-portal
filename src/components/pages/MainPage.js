@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useState} from 'react';
 
 import RandomChar from '../randomChar/RandomChar';
 import CharList from '../charList/CharList';
@@ -17,19 +17,21 @@ const MainPage = () => {
       <ErrorBoundary>
         <RandomChar />
       </ErrorBoundary>
-      <div className="char__content">
+      <div className='char__content'>
         <ErrorBoundary>
           <CharList onCharSelected={onCharSelected} />
         </ErrorBoundary>
-        <div className="char__form">
+        <div className='char__form'>
           <ErrorBoundary>
             <CharInfo charId={selectedChar} />
+          </ErrorBoundary>
+          <ErrorBoundary>
             <CustomForm />
           </ErrorBoundary>
         </div>
       </div>
 
-      <img className="bg-decoration" src={decoration} alt="vision" />
+      <img className='bg-decoration' src={decoration} alt='vision' />
     </>
   );
 };

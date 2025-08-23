@@ -1,13 +1,17 @@
-import AppBanner from '../../appBanner/appBanner';
-import Character from '../../character/character';
+import './singleCharacterLayout.scss';
 
-const CharacterPage = () => {
+const SingleCharacterLayout = ({data}) => {
+  const {name, description, thumbnail} = data;
+
   return (
-    <>
-      <AppBanner />
-      <Character />
-    </>
+    <div className='single-comic'>
+      <img src={thumbnail} alt={name} className='single-comic__char-img' />
+      <div className='single-comic__info'>
+        <h2 className='single-comic__name'>{name}</h2>
+        <p className='single-comic__descr'>{description}</p>
+      </div>
+    </div>
   );
 };
 
-export default CharacterPage;
+export default SingleCharacterLayout;
