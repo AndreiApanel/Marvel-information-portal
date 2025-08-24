@@ -1,11 +1,5 @@
 @use '../../style/variables' as *;
-.item-appear {
-  opacity: 0;
-}
-.item-appear-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
-}
+
 .char {
   &__content {
     margin-top: 50px;
@@ -38,6 +32,31 @@
       box-shadow: 0 5px 20px $main-color;
       transform: translateY(-8px);
     }
+    &-appear {
+      opacity: 0;
+    }
+    &-active-appear {
+      opacity: 1;
+      transition: opacity 500ms ease-in;
+    }
+    &-enter {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    &-enter-active {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 500ms ease;
+    }
+    &-exit {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    &-exit-active {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 500ms ease;
+    }
   }
   &__name {
     font-weight: bold;
@@ -46,23 +65,4 @@
     text-transform: uppercase;
     color: #fff;
   }
-}
-.item-enter {
-  opacity: 0;
-  transform: translateY(20px);
-}
-.item-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: all 500ms ease;
-}
-
-.item-exit {
-  opacity: 1;
-  transform: translateY(0);
-}
-.item-exit-active {
-  opacity: 0;
-  transform: translateY(-20px);
-  transition: all 500ms ease;
 }

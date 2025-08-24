@@ -72,8 +72,6 @@ const CharList = props => {
 
   const renderItems = useCallback(
     arr => {
-      itemRefs.current = {};
-
       return (
         <TransitionGroup component='ul' className='char__grid'>
           {arr.map((item, i) => {
@@ -87,18 +85,18 @@ const CharList = props => {
               : {objectFit: 'cover'};
 
             return (
-              <CSSTransition key={item.id} timeout={500} classNames='item' nodeRef={ref} appear>
+              <CSSTransition key={item.id} timeout={500} classNames='char__item' nodeRef={ref}>
                 <li
                   className='char__item'
                   tabIndex={0}
                   ref={ref}
                   onClick={() => {
-                    onCharSelected(item.id); // ✅ use destructured prop
+                    onCharSelected(item.id);
                     focusOnItem(i);
                   }}
                   onKeyDown={e => {
                     if (e.key === ' ' || e.key === 'Enter') {
-                      onCharSelected(item.id); // ✅ use destructured prop
+                      onCharSelected(item.id);
                       focusOnItem(item.id);
                     }
                   }}>
