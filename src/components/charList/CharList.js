@@ -74,7 +74,7 @@ const CharList = props => {
     arr => {
       return (
         <TransitionGroup component='ul' className='char__grid'>
-          {arr.map((item, i) => {
+          {arr.map(item => {
             if (!itemRefs.current[item.id]) {
               itemRefs.current[item.id] = createRef();
             }
@@ -92,7 +92,7 @@ const CharList = props => {
                   ref={ref}
                   onClick={() => {
                     onCharSelected(item.id);
-                    focusOnItem(i);
+                    focusOnItem(item.id);
                   }}
                   onKeyDown={e => {
                     if (e.key === ' ' || e.key === 'Enter') {
